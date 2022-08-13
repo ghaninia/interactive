@@ -1,0 +1,32 @@
+{
+    "license": "MIT",
+    "name": "ghaninia/interactive",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "GhaniniaIR\\Interactive\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Amin Ghaninia",
+            "email": "info@ghaninia.ir",
+            "homepage": "https://ghaninia.ir"
+        }
+    ],
+    "require": {
+        "php": "^8.0|^7.4" ,
+        "laravel/framework" : "^9.0|^8.0|^7.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GhaniniaIR\\Interactive\\InteractiveServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "mockery/mockery": "^1.5"
+    }
+}
