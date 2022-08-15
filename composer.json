@@ -2,9 +2,11 @@
     "license": "MIT",
     "name": "ghaninia/interactive",
     "type": "package",
+    "keywords": ["laravel", "artisan", "api", "rest", "http", "php", "command" , "tinker" , "terminal"],
     "autoload": {
         "psr-4": {
-            "GhaniniaIR\\Interactive\\": "src/"
+            "GhaniniaIR\\Interactive\\": "src/",
+            "GhaniniaIR\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -27,6 +29,12 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "mockery/mockery": "^1.5"
+        "mockery/mockery": "^1.5",
+        "orchestra/testbench": "^7.6"
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit tests/"
+        ]
     }
 }

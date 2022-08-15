@@ -10,7 +10,7 @@ class InteractiveServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/config/interactive.php',
+            __DIR__ . '/configs/interactive.php',
             'interactive'
         );
     }
@@ -27,7 +27,7 @@ class InteractiveServiceProvider extends ServiceProvider
         // });
 
         $this->publishes([
-            __DIR__ . '/config/interactive.php' => config_path('interactive.php'),
+            __DIR__ . '/configs/interactive.php' => config_path('interactive.php'),
         ]);
         
     }
