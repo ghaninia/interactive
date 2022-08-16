@@ -14,13 +14,27 @@ class FileDriver implements CacheDriverInterface
      */
     public function get(string $key)
     {
-        $result = $this->search($key) ;
+        $result = $this->search($key);
+
         return $result ? file_get_contents($result) : false;
     }
 
+    /**
+     * set file content and return true if success or false if not
+     *
+     * @param string $key
+     * @param string $value
+     * @return string 
+     */
     public function set(string $key, string $value)
     {
-        // TODO: Implement set() method.
+        $path = ($result = $this->search($key)) ?
+            $result :
+            $this->changeKeyToPath($key);
+
+        file_put_contents($path, $value);
+
+        return $value;
     }
 
     /**
@@ -29,7 +43,7 @@ class FileDriver implements CacheDriverInterface
      */
     public function delete(string $key)
     {
-        $result = $this->search($key) ;
+        $result = $this->search($key);
         return $result && unlink($result);
     }
 
@@ -40,7 +54,7 @@ class FileDriver implements CacheDriverInterface
     public function clear()
     {
         return rmdir($this->configCacheDir()) &&
-            mkdir($this->configCacheDir()) ;
+            mkdir($this->configCacheDir());
     }
 
     /**
@@ -50,15 +64,30 @@ class FileDriver implements CacheDriverInterface
      */
     public function search(string $key)
     {
-        $path[] = $this->configCacheDir() ;
-        $path[] = sprintf("%s.%s" , $key , $this->configExtension()) ;
-        $path   = implode(DIRECTORY_SEPARATOR , $path) ;
+        $path = $this->changeKeyToPath($key);
 
-        if (file_exists($path)){
-            return $this->isExpired($path) ? false : $path;
+        if (file_exists($path)) {
+            if ($this->isExpired($path)) {
+                unlink($path);
+                return false;
+            }
+            return $path;
         }
 
         return false;
+    }
+
+    /**
+     * change key to file path 
+     *
+     * @param string $key
+     * @return string
+     */
+    public function changeKeyToPath(string $key): string
+    {
+        $path[] = $this->configCacheDir();
+        $path[] = sprintf("%s.%s", $key, $this->configExtension());
+        return implode(DIRECTORY_SEPARATOR, $path);
     }
 
     /**
@@ -68,12 +97,12 @@ class FileDriver implements CacheDriverInterface
      */
     protected function info(string $path)
     {
-        $information = new \stdClass() ;
-        $information->filectime  = filectime($path) ;
-        $information->expiretime = filectime($path) + $this->configTTL() ;
-        $information->filemtime  = filemtime($path) ;
-        $information->basename   = basename($path) ;
-        $information->mime       = mime_content_type($path) ;
+        $information = new \stdClass();
+        $information->filectime  = filectime($path);
+        $information->expiretime = filectime($path) + $this->configTTL();
+        $information->filemtime  = filemtime($path);
+        $information->basename   = basename($path);
+        $information->mime       = mime_content_type($path);
 
         return $information;
     }
@@ -84,7 +113,7 @@ class FileDriver implements CacheDriverInterface
      */
     protected function isExpired(string $path)
     {
-        return $this->info($path)->expiretime < (new \DateTime)->getTimestamp() ;
+        return $this->info($path)->expiretime < (new \DateTime)->getTimestamp();
     }
 
     /**
@@ -102,7 +131,7 @@ class FileDriver implements CacheDriverInterface
      */
     protected function configExtension()
     {
-        return config("interactive.driver.file.extension", "txt") ;
+        return config("interactive.driver.file.extension", "txt");
     }
 
     /**
@@ -111,6 +140,6 @@ class FileDriver implements CacheDriverInterface
      */
     protected function configTTL()
     {
-        return config("interactive.cache.drivers.file.ttl", 3600) ;
+        return config("interactive.cache.drivers.file.ttl", 3600);
     }
 }
