@@ -35,7 +35,7 @@ class RedisDriver implements CacheDriverInterface
      */
     public function delete(string $key)
     {
-        return $this->getConnection()->del($key) ;
+        return (bool) $this->getConnection()->del($key) ;
     }
 
     /**
