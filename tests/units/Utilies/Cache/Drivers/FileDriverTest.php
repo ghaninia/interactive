@@ -5,7 +5,7 @@ namespace units\Utilies\Cache\Drivers;
 use GhaniniaIR\Tests\TestCase;
 use GhaniniaIR\Interactive\Utilies\Cache\Drivers\FileDriver;
 
-class FIleDriverTest extends TestCase
+class FileDriverTest extends TestCase
 {
     protected $fileName;
     protected $fileDriver;
@@ -45,8 +45,8 @@ class FIleDriverTest extends TestCase
         };
 
         $this->fileName = uniqid("FILE__");
-        $this->fileTempBasePath = __DIR__ . "/stubs/cache";
-        $this->fileTempPath = $this->fileTempBasePath . "/" . $this->fileName . ".txt";
+        $this->fileTempBasePath = str_replace("/" , DIRECTORY_SEPARATOR , __DIR__ . "/stubs/cache");
+        $this->fileTempPath = str_replace("/" , DIRECTORY_SEPARATOR , $this->fileTempBasePath . "/" . $this->fileName . ".txt" );
 
         ### config setting 
         config()->set("interactive.driver.file.cache_dir", $this->fileTempBasePath);
