@@ -20,6 +20,10 @@ return [
                 //]
             ]
         ]
+    ] ,
+    'route' => [
+        'prefix_name'  => 'interactive' ,
+        'prefix_route' => 'interactive' ,
     ]
 ];
 

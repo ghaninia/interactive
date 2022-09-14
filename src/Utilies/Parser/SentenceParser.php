@@ -2,31 +2,49 @@
 
 namespace GhaniniaIR\Interactive\Utilies\Parser;
 
+use GhaniniaIR\Interactive\Utilies\Command\Columns\VarsColumn;
+use GhaniniaIR\Interactive\Utilies\Command\Columns\SentenceColumn;
+use GhaniniaIR\Interactive\Utilies\Command\Columns\IsDeclareColumn;
+use GhaniniaIR\Interactive\Utilies\Command\Interfaces\RowInterface;
+use GhaniniaIR\Interactive\Utilies\Parser\Exceptions\InvalidSentenceException;
+
 class SentenceParser
 {
-
-    private string $sentence ;
+    /**
+     * ignored these character in sentence 
+     *
+     * @var array
+     */
     private array $ignores = [
         "{" ,
         "}" ,
     ];
+
+    /**
+     * regex supported these sentences : 
+     ** $name =  
+     ** $name ++ 
+     ** $name -- 
+     ** $name= 
+     * @var array
+     */
     private array $declares = [
-        "=",
-        "++",
-        "--"
+        '(\$[A-z0-9_]{1,}[ ]{0,}(\++|--|=))',
     ];
 
     /**
-     * get sentence
-     * @param string $sentence
-     * @return $this
+     * matches declare vars
+     *
+     * @var array
      */
-    public function input(string $sentence)
-    {
-        $this->sentence = $sentence ;
+    private array $matches = [] ;
 
-        return $this;
-    }
+    /**
+     * @param string $sentence
+     */
+    public function __construct(
+        protected string $sentence
+    ){}
 
     /**
      * senetence has declare element
@@ -34,8 +52,8 @@ class SentenceParser
      */
     public function hasDeclareElement()
     {
-        foreach ($this->declares as $element) {
-            if (str_contains($this->sentence , $element)) {
+        foreach ($this->declares as $regex) {
+            if (preg_match($regex , $this->sentence , $this->matches )) {
                 return true ;
             }
         }
@@ -49,8 +67,9 @@ class SentenceParser
      */
     public function hasInvalidElement()
     {
-        foreach ($this->ignores as $element) {
-            if (str_contains($this->sentence , $element)) {
+        
+        foreach ($this->ignores as $character) {
+            if (str_contains($this->sentence , $character)) {
                 return true ;
             }
         }
@@ -58,4 +77,25 @@ class SentenceParser
         return false ;
     }
 
+    /**
+     * Row factory 
+     * @param RowInterface $row
+     * @throws InvalidSentenceException
+     * @return RowInterface
+     */
+    public function makeRow(RowInterface $row)
+    {
+        
+        if($this->hasInvalidElement()) {
+            throw new InvalidSentenceException() ;
+        }
+
+        $hasDeclareElement = $this->hasDeclareElement() ; 
+
+        return $row
+            ->addColumn( new SentenceColumn($this->sentence) )
+            ->addColumn( new IsDeclareColumn($hasDeclareElement) )
+            ->addColumn( new VarsColumn($this->matches) ) ;
+
+    }
 }

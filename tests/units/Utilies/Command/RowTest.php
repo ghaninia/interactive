@@ -20,7 +20,7 @@ class RowTest extends TestCase
     }
 
     /** @test */
-    public function addColumnTest()
+    public function addColumn()
     {
         $row = (new Row)->addColumn(
             $item = $this->mockColumnContract, true
@@ -36,16 +36,16 @@ class RowTest extends TestCase
     }
 
     /** @test */
-    public function countColumnTest()
+    public function countColumn()
     {
         $row = (new Row)->addColumn(
-            $this->mockColumnContract, true
+            $this->mockColumnContract
         );
         
         $this->assertSame(1 , $row->countColumn()) ;
 
         $row->addColumn(
-            $this->mockColumnContract, true
+            $this->mockColumnContract
         );
 
         $this->assertSame(2 , $row->countColumn()) ;
