@@ -4,7 +4,7 @@ namespace GhaniniaIR\Interactive\Utilies\Command;
 
 use GhaniniaIR\Interactive\Utilies\Command\Columns\Contracts\ColumnContract;
 
-final class Row
+class Row
 {
     private array $columns;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace GhaniniaIR\Tests\units\Utilies\Cache\Drivers;
+namespace GhaniniaIR\Tests\Units\Utilies\Cache\Drivers;
 
 use GhaniniaIR\Interactive\Utilies\Cache\Drivers\RedisDriver;
 use GhaniniaIR\Tests\TestCase;
