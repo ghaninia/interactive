@@ -10,6 +10,13 @@ use GhaniniaIR\Interactive\Utilies\Parser\Exceptions\InvalidSentenceException;
 
 class SentenceParser
 {
+
+    /**
+     * regular expression var
+     * @var string 
+     */
+    private const VAR_REGEX = '/\$[A-z0-9_]{1,}/' ;
+
     /**
      * ignored these character in sentence 
      *
@@ -28,16 +35,9 @@ class SentenceParser
      ** $name= 
      * @var array
      */
-    private array $declares = [
-        '(\$[A-z0-9_]{1,}[ ]{0,}(\++|--|=))',
+    private array $declareRegex = [
+        '/\$[A-z0-9_]{1,}+[ ]{0,}(?:=|--|\++)/',
     ];
-
-    /**
-     * matches declare vars
-     *
-     * @var array
-     */
-    private array $matches = [] ;
 
     /**
      * @param string $sentence
@@ -52,8 +52,8 @@ class SentenceParser
      */
     public function hasDeclareElement()
     {
-        foreach ($this->declares as $regex) {
-            if (preg_match($regex , $this->sentence , $this->matches )) {
+        foreach ($this->declareRegex as $regex) {
+            if(preg_match_all($regex , $this->sentence , $matches )) {
                 return true ;
             }
         }
@@ -78,7 +78,23 @@ class SentenceParser
     }
 
     /**
-     * Row factory 
+     * get effective vars in sentence 
+     * @return array
+     */
+    public function effectiveVars()
+    {
+
+        $variables = [] ;
+
+        if ( preg_match_all(SELF::VAR_REGEX , $this->sentence , $variables ) ){
+            $variables = $variables[0] ;
+        }
+
+        return array_unique($variables) ;
+    }
+
+    /**
+     * inital options Row factory 
      * @param RowInterface $row
      * @throws InvalidSentenceException
      * @return RowInterface
@@ -91,11 +107,12 @@ class SentenceParser
         }
 
         $hasDeclareElement = $this->hasDeclareElement() ; 
+        $effectiveVars = $this->effectiveVars() ;
 
         return $row
             ->addColumn( new SentenceColumn($this->sentence) )
             ->addColumn( new IsDeclareColumn($hasDeclareElement) )
-            ->addColumn( new VarsColumn($this->matches) ) ;
-
+            ->addColumn( new VarsColumn($effectiveVars) ) ;
+        
     }
 }

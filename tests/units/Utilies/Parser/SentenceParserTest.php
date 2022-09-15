@@ -4,7 +4,9 @@ namespace GhaniniaIR\Tests\Units\Utilies\Parser;
 
 use ReflectionProperty;
 use GhaniniaIR\Tests\TestCase;
+use GhaniniaIR\Interactive\Utilies\Command\Row;
 use GhaniniaIR\Interactive\Utilies\Parser\SentenceParser;
+use GhaniniaIR\Interactive\Utilies\Parser\Exceptions\InvalidSentenceException;
 
 class SentenceParserTest extends TestCase
 {
@@ -28,7 +30,7 @@ class SentenceParserTest extends TestCase
     {
 
         $this->assertTrue(
-            (new SentenceParser('$name = "hello world";'))->hasDeclareElement()
+            (new SentenceParser('$to = "ghaninia" ; $from = "amin";'))->hasDeclareElement()
         );
 
         $this->assertTrue(
@@ -74,4 +76,36 @@ class SentenceParserTest extends TestCase
 
     }
 
+
+    /** @test */
+    public function effectiveVars()
+    {
+        $result = (new SentenceParser( '$name = "hello world" ; echo $name ' ) )->effectiveVars( new Row ) ;
+        $this->assertSame( $result[0] , '$name' ) ;
+        
+        $result = (new SentenceParser( '$name = "hello world" ; echo $sound ' ) )->effectiveVars( new Row ) ;
+        $this->assertSame( $result[0] , '$name' ) ;
+        $this->assertSame( $result[1] , '$sound' ) ;
+
+        $result = (new SentenceParser( '$name = "hello world" ; echo $sound ' ) )->effectiveVars( new Row ) ;
+        $this->assertSame( $result[0] , '$name' ) ;
+        $this->assertSame( $result[1] , '$sound' ) ;
+    }
+
+    /** @test */
+    public function failedMakedRow()
+    {
+        $this->expectException(InvalidSentenceException::class) ;
+        (new SentenceParser('if(true){ echo "hello" ;}'))->makeRow( new Row ) ;
+    }
+
+    /** @test */
+    public function makeRow()
+    {
+
+        $response = (new SentenceParser('$user = "hello world"'))->makeRow( new Row ) ;
+        $this->assertEquals( 3 , $response->countColumn() ) ; 
+        $this->assertIsArray( $response->getColumns() ) ;
+        
+    }
 }

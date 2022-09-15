@@ -2,10 +2,10 @@
 
 namespace GhaniniaIR\Interactive;
 
+use Illuminate\Support\ServiceProvider;
 use GhaniniaIR\Interactive\Utilies\Cache\Drivers\FileDriver;
 use GhaniniaIR\Interactive\Utilies\Cache\Drivers\RedisDriver;
 use GhaniniaIR\Interactive\Utilies\Cache\Interfaces\CacheDriverInterface;
-use Illuminate\Support\ServiceProvider;
 
 class InteractiveServiceProvider extends ServiceProvider
 {
