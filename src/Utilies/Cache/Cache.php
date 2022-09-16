@@ -2,6 +2,7 @@
 
 namespace GhaniniaIR\Interactive\Utilies\Cache;
 
+use Illuminate\Support\Facades\Facade;
 
 class Cache extends Facade
 {

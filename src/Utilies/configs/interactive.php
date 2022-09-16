@@ -1,15 +1,20 @@
 <?php
 
+use GhaniniaIR\Interactive\Utilies\Cache\Drivers\ {
+    FileDriver ,
+    RedisDriver
+};
+
 return [
     'cache' => [
         'default' => 'file',
         'drivers' => [
-            'file' => [
+            FileDriver::driverName() => [
                 'extension' => '.txt',
                 'ttl' => 3600,
                 'cache_dir' => storage_path('interactive-terminal'),
             ],
-            'redis' => [
+            RedisDriver::driverName() => [
                 'connection_name' => 'interactive'  ,
                 'ttl' => 3600 ,
                 //"connection" => [

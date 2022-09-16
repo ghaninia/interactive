@@ -8,6 +8,16 @@ class FileDriver implements CacheDriverInterface
 {
 
     /**
+     * get file name
+     *
+     * @return string
+     */
+    public static function driverName(): string
+    {   
+        return "file" ;
+    }
+
+    /**
      * get file content
      * @param string $key
      * @return false|string

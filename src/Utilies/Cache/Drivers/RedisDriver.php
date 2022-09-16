@@ -7,6 +7,18 @@ use Illuminate\Support\Facades\Redis;
 
 class RedisDriver implements CacheDriverInterface
 {
+
+    
+    /**
+     * get file name
+     *
+     * @return string
+     */
+    public static function driverName(): string
+    {   
+        return "redis" ;
+    }
+
     /**
      * Get the value related to the specified key
      * @param string $key
