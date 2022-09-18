@@ -13,6 +13,6 @@ class Cache extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return config("cache.default", "interactive");
+        return config("interactive.cache.default");
     }
 }

@@ -9,4 +9,6 @@ interface RowInterface
     public function addColumn(ColumnContract $column ) ;
     public function countColumn() ;
     public function getColumns() ;
+    public function getColumn(string $columnClass) ;
+
 }

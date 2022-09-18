@@ -34,13 +34,13 @@ class Row implements RowInterface
     }
 
     /** 
-     * @param ColumnContract $column
+     * @param string $columnClass
      * @return ColumnContract|false 
      */
-    public function getColumn(ColumnContract $columnContract) 
+    public function getColumn(string $columnClass) 
     {
         foreach($this->columns as $column) {
-            if( $column instanceof $columnContract ) {
+            if( $column instanceof $columnClass ) {
                 return $column ;
             }
         }

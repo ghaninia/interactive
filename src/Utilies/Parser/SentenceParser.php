@@ -2,9 +2,12 @@
 
 namespace GhaniniaIR\Interactive\Utilies\Parser;
 
-use GhaniniaIR\Interactive\Utilies\Command\Columns\VarsColumn;
-use GhaniniaIR\Interactive\Utilies\Command\Columns\SentenceColumn;
-use GhaniniaIR\Interactive\Utilies\Command\Columns\IsDeclareColumn;
+use GhaniniaIR\Interactive\Utilies\Command\Columns\{
+    HasDeclareColumn,
+    VarsColumn ,
+    SentenceColumn ,
+};
+
 use GhaniniaIR\Interactive\Utilies\Command\Interfaces\RowInterface;
 use GhaniniaIR\Interactive\Utilies\Parser\Exceptions\InvalidSentenceException;
 
@@ -47,14 +50,15 @@ class SentenceParser
     ){}
 
     /**
-     * senetence has declare element
+     * senetence declares element
      * @return bool
      */
     public function hasDeclareElement()
     {
+        
         foreach ($this->declareRegex as $regex) {
-            if(preg_match_all($regex , $this->sentence , $matches )) {
-                return true ;
+            if(preg_match_all($regex , $this->sentence , $declares )) {
+                return true ; 
             }
         }
 
@@ -111,8 +115,8 @@ class SentenceParser
 
         return $row
             ->addColumn( new SentenceColumn($this->sentence) )
-            ->addColumn( new IsDeclareColumn($hasDeclareElement) )
-            ->addColumn( new VarsColumn($effectiveVars) ) ;
+            ->addColumn( new HasDeclareColumn($hasDeclareElement) )
+            ->addColumn( new VarsColumn($effectiveVars) );
         
     }
 }
