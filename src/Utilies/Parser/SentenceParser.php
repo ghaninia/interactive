@@ -26,8 +26,17 @@ class SentenceParser
      * @var array
      */
     private array $ignores = [
-        "{" ,
-        "}" ,
+        "echo" ,
+        "print_r" ,
+        "print",
+        "printf",
+        "var_dump" ,
+        "dump" ,
+        "dd" ,
+        "eval",
+        "exec",
+        "shell_​exec" ,
+        "dd",
     ];
 
     /**

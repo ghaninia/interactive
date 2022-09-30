@@ -70,6 +70,22 @@ class SentenceParserTest extends TestCase
             (new SentenceParser('if(true){ echo "hello" ;}'))->hasInvalidElement()
         );
 
+        $this->assertTrue(
+            (new SentenceParser('$name = "amin" ; echo $name; '))->hasInvalidElement()
+        );
+
+        $this->assertTrue(
+            (new SentenceParser('$name = "amin" ; echo $name; '))->hasInvalidElement()
+        );
+        
+        $this->assertTrue(
+            (new SentenceParser('$name = "amin" ; echo $name; '))->hasInvalidElement()
+        );
+        
+        $this->assertTrue(
+            (new SentenceParser('$name = "amin" ; echo $name; '))->hasInvalidElement()
+        );
+
         $this->assertFalse(
             (new SentenceParser('$name = fn($value) => strtolower($value) '))->hasInvalidElement()
         );
@@ -108,4 +124,5 @@ class SentenceParserTest extends TestCase
         $this->assertIsArray( $response->getColumns() ) ;
         
     }
+
 }

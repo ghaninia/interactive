@@ -2,7 +2,7 @@
 
 namespace GhaniniaIR\Interactive\Utilies\Command;
 
-use ParseError;
+use Throwable;
 use GhaniniaIR\Interactive\Utilies\Cache\Cache;
 use GhaniniaIR\Interactive\Utilies\Command\Row;
 use GhaniniaIR\Interactive\Utilies\Parser\SentenceParser;
@@ -10,7 +10,6 @@ use GhaniniaIR\Interactive\Utilies\Command\Columns\VarsColumn;
 use GhaniniaIR\Interactive\Utilies\Command\Columns\SentenceColumn;
 use GhaniniaIR\Interactive\Utilies\Command\Contracts\TableContract;
 use GhaniniaIR\Interactive\Utilies\Command\Interfaces\RowInterface;
-use Illuminate\Support\Facades\Artisan;
 
 class Table extends TableContract
 { 
@@ -120,11 +119,10 @@ class Table extends TableContract
         try {
 
             $newRow = $this->newRow() ;
-            $varsColumns = $newRow->getColumn(VarsColumn::class) ;
-            // $newColumns  = $newRow->getColumns() ;
-            // $hasDeclareColumn = $newRow->getColumn(HasDeclareColumn::class) ;
+            $varsColumns = $newRow->getColumn(VarsColumn::class)?->getValue() ;
 
             $this->oldestRows() ;
+            
             $oldestRows = match( true ) {
                 !empty($varsColumns) => $this->oldestRows() ,            
                 default => false  ,
@@ -132,17 +130,28 @@ class Table extends TableContract
 
             $oldestRows = $oldestRows ? $oldestRows : [] ;
 
+
+            ## get output 
+
             $rows = $this->mergeRows($oldestRows , $newRow);
-            $result = null ;
 
             foreach($rows as $row) {
                 $sentence = $row->getColumn(SentenceColumn::class)?->getValue() ;
-                $result = eval($result) ;
+
+                eval ( $sentence ) ;
             }
 
-            return $result ;
 
-        } catch ( ParseError $error ) {
+            foreach($varsColumns as $variable) {
+
+                $trimVariable = ltrim($variable , "$") ;
+                $vars[] = $$trimVariable ;
+
+            }
+
+            return $vars ?? [] ; 
+
+        } catch ( Throwable  $error ) {
             return $error ;
         }
 
