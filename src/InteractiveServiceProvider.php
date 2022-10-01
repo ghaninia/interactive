@@ -18,6 +18,9 @@ class InteractiveServiceProvider extends ServiceProvider
             __DIR__ . '/Utilies/configs/interactive.php',
             'interactive'
         );
+
+        /**  load routes */
+        $this->loadRoutesFrom(__DIR__ . "/Http/routes.php");
     }
 
     /**
