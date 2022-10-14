@@ -27,8 +27,11 @@ return [
         ]
     ],
     'route' => [
+        'title'  => 'Interactive Terminal',
+        'description'  => 'You can run php sentence on Interactive',
         'prefix_name'  => 'interactive',
         'prefix_route' => 'interactive',
         'middlewares' => []
     ],
 ];
+

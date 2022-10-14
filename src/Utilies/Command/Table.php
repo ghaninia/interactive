@@ -18,7 +18,7 @@ class Table extends TableContract
     private string $sentence ;
     
     /**
-     * Undocumented function
+     * set cache key 
      *
      * @param string $cacheKey
      * @return self
@@ -30,7 +30,7 @@ class Table extends TableContract
     }
 
     /**
-     * Undocumented function
+     * get cache key 
      *
      * @return string
      */
@@ -40,7 +40,7 @@ class Table extends TableContract
     }
 
     /**
-     * Undocumented function
+     * set query sentence 
      *
      * @param string $sentence
      * @return self
@@ -52,7 +52,7 @@ class Table extends TableContract
     }
 
     /**
-     * Undocumented function
+     * get query sentence
      *
      * @return string
      */
@@ -61,9 +61,8 @@ class Table extends TableContract
         return $this->sentence ;
     }
 
-
     /**
-     * Undocumented function
+     * get oldest rows on table 
      *
      * @return array|false 
      */
@@ -74,7 +73,7 @@ class Table extends TableContract
     }
 
     /**
-     * Undocumented function
+     * create new Row
      *
      * @return RowInterface
      */
@@ -85,7 +84,7 @@ class Table extends TableContract
     }
 
     /**
-     * Undocumented function
+     * merge oldest and new 
      *
      * @param array|false $latestRows
      * @param RowInterface $newRow
@@ -99,7 +98,7 @@ class Table extends TableContract
     }
 
     /**
-     * Undocumented function
+     * store multiple rows 
      *
      * @param array $rows
      * @return boolean
@@ -110,7 +109,7 @@ class Table extends TableContract
     }
 
     /**
-     * Undocumented function
+     * get results 
      *
      * @return void
      */
