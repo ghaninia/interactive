@@ -6,6 +6,9 @@ use GhaniniaIR\Interactive\Utilies\Cache\Drivers\{
 };
 
 return [
+
+    'theme'  => 'dark' , ### "light" or "dark"
+
     'cache' => [
         'default' => 'file',
         'drivers' => [
@@ -26,6 +29,7 @@ return [
             ]
         ]
     ],
+
     'route' => [
         'title'  => 'Interactive Terminal',
         'description'  => 'You can run php sentence on Interactive',

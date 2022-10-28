@@ -10,9 +10,8 @@ $prefixRoute = config("interactive.route.prefix_route");
 Route::name($prefixName)
     ->prefix($prefixRoute)
     ->group(function () {
-
+        Route::get("/" , [InteractiveTerminalController::class , "index"])->name("index");
         Route::post("set", [InteractiveTerminalController::class , "set"])->name("set");
-
     });
 
 

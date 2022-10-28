@@ -21,6 +21,9 @@ class InteractiveServiceProvider extends ServiceProvider
 
         /**  load routes */
         $this->loadRoutesFrom(__DIR__ . "/Http/routes.php");
+        /**  load views */
+        $this->loadViewsFrom(__DIR__.'/Gui/resources/views', 'interactive');
+
     }
 
     /**
@@ -30,9 +33,18 @@ class InteractiveServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        
         $this->publishes([
             __DIR__ . '/Utilies/configs/interactive.php' => config_path('interactive.php'),
         ]);
+
+        $this->publishes([
+            __DIR__.'/Gui/resources/views' => resource_path('views/vendor/interactive'),
+        ]);
+
+        $this->publishes([
+            __DIR__.'/Gui/asset' => public_path('vendor/interactive'),
+        ], 'public');
 
         /** cache driver facade */
         $this->app->bind(FileDriver::driverName() , function (){
