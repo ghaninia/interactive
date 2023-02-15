@@ -36,9 +36,9 @@ class FileDriverTest extends TestCase
     {
         $result = $this->fileDriver->info($this->fileTempPath);
 
-        $this->assertObjectHasAttribute("filectime", $result);
-        $this->assertObjectHasAttribute("expiretime", $result);
-        $this->assertObjectHasAttribute("filemtime", $result);
+        $this->assertTrue(isset($result->filectime));
+        $this->assertTrue(isset($result->expiretime));
+        $this->assertTrue(isset($result->filemtime));
 
         $this->assertSame($result->basename , $this->fileName . ".txt" );
         $this->assertSame($result->mime, "text/plain");

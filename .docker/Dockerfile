@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
         libonig-dev \
         graphviz \
         cron \
+        unzip \
+        openssl \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
@@ -19,8 +21,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install sockets \
     && docker-php-source delete \
     && curl -sS https://getcomposer.org/installer | php -- \
-     --install-dir=/usr/local/bin --filename=composer
-
-WORKDIR /app
-COPY . .
-RUN composer install
+     --install-dir=/usr/local/bin --filename=composer \
+    && pecl install redis \
+    && docker-php-ext-enable redis

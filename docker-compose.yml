@@ -2,15 +2,20 @@ version: '3.8'
 
 services:
   app :
-    build: .
-    volumes:
-      - .:/app
+    container_name: app_interactive
+    build:
+      context: ./.docker
+      dockerfile: Dockerfile
     tty: true
-    restart: always
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
     depends_on:
       - redis
 
   redis:
+    container_name: redis_interactive
     image: redis:alpine
     ports:
       - "6379:6379"

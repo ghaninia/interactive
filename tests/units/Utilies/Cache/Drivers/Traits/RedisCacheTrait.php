@@ -40,15 +40,14 @@ trait RedisCacheTrait {
 
         /**  config vars */
         $this->connectionName = "interactive" ;
-        $this->connectionOption = [
-            'host' => env('REDIS_HOST', '127.0.0.1'),
+
+        /** config connections */
+        config()->set("database.redis." . $this->connectionName, [
+            'host' => env('REDIS_HOST', 'redis_interactive'),
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_DB', 0),
-        ];
-
-        /** config connections */
-        config()->set("database.redis." . $this->connectionName , $this->connectionOption) ;
+        ]);
         config()->set("interactive.cache.drivers.redis.connection_name" , $this->connectionName) ;
     }
 

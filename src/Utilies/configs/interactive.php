@@ -16,13 +16,7 @@ return [
             ],
             RedisDriver::driverName() => [
                 'connection_name' => 'interactive',
-                'ttl' => 3600,
-                //'connection' => [
-                //    'host' => env('REDIS_HOST', '127.0.0.1'),
-                //    'password' => env('REDIS_PASSWORD'),
-                //    'port' => env('REDIS_PORT', 6379),
-                //    'database' => env('REDIS_DB', 0),
-                //]
+                'ttl' => 3600
             ]
         ]
     ],
